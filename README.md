@@ -1,10 +1,12 @@
 # FabGUI Workflow
 
+FabGUI is a GUI frontend for Hyperledger Fabric Certificate Authority. It can be used for running all the Fabric CA functions from a graphical interface.  
+
 ## Initial Setup
 
-1.	Install the fabric-ca files from github
+1.	Clone the fabric-ca files from github
 2.	Add an environment variable to PATH, CAPATH which points to the location of the docker-compose.yaml file. It’ll be in /go/src/github.com/hyperledger/fabric-ca/docker/server
-3.	After this the python script will run. The only dependency the python script will require is ruamel.yaml package. Install that using pip. This package is used for the editing of YAML files.
+3.	After this the python script will run. The only dependency the python script will require is ruamel.yaml package. Install that using ````pip install ruamel.yaml````. This package is used for the editing of YAML files.
 
 ## Working
 
