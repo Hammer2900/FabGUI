@@ -18,7 +18,8 @@ Introduction
 
 The GUI can handle both the server and the client functions. Login button starts the server. A popup will signal successful start of the Server. The end server button can be used to shut the server down.
 
-The command used to start the server is ``fabric-ca-server start -b <usr>:<pass>`` 
+The command used to start the server is ``fabric-ca-server start -b <usr>:<pass>``
+
 The command used to shut the server down is ``docker rm -f $(docker ps -aq)``
 
 Functionality 
