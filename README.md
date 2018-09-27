@@ -4,6 +4,10 @@ FabGUI is a GUI frontend for Hyperledger Fabric Certificate Authority. It can be
 
 The FabGUI Debian Zip contains a linux package for the FabGUI Application. It can be used to install the app in any Debian based Linux system.
 
+## Documentation
+
+Documentation for usage can be found at https://fabgui.readthedocs.io/en/latest/#
+
 ## Initial Setup
 
 1.	Clone the fabric-ca files from github
