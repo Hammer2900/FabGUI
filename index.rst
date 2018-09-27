@@ -31,7 +31,7 @@ The client has to provide to the address of the server to connect to it. Once th
 5. Modify 
 6. Remove
 
-All of the above functions are described in detail below.
+All of the above functions are described in detail below. 
 
 Enroll
 ====== 
