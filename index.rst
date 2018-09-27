@@ -18,7 +18,8 @@ Introduction
 
 The GUI can handle both the server and the client functions. Login button starts the server. A popup will signal successful start of the Server. The end server button can be used to shut the server down.
 
-The command used to start the server is ``fabric-ca-server start -b <usr>:<pass>`` The command used to shut the server down is ``docker rm -f $(docker ps -aq)``
+The command used to start the server is ``fabric-ca-server start -b <usr>:<pass>`` 
+The command used to shut the server down is ``docker rm -f $(docker ps -aq)``
 
 Functionality 
 =============
@@ -46,7 +47,6 @@ The register command is used for registering an identity to the Fabric CA. The i
 ``export FABRIC_CA_CLIENT_HOME=$HOME/fabric-ca/clients/admin`` 
 
 ``fabric-ca-client register --id.name user1 --id.secret user1pw --id.type user
-
 --id.affiliation org1 --id.attrs attrs`` 
 
 The register command allows the admin to sign the certificate along with a number of attributes. The admin can only sign for attributes which the admin possess in the admins certificate. This is a list of attributes that can be registered for an identity: - 
@@ -72,7 +72,6 @@ Attribute Based Access Control
 This feature allows the chaincode to extract specific attributes from the certificate. While enrolling a client custom attributes can be added to the certificate with a “:ecert” suffix that inserts the attribute by default into the certificate. The custom attributes can be suffixed to the register command as shown: 
 
 ``fabric-ca-client register --id.name user1 --id.secret user1pw --id.type user --id.affiliation org1 --id.attrs 
-
 'custAttr1=value:ecert,custAttr2=value'``
 
 Here the custAttr1 and custAttr2 are stored in the certificate of the identity. The chaincode can request for these attributes and evaluate them. Based on the values it can decide the course of action required for running the chaincode.
@@ -96,7 +95,6 @@ Modify
 The modify command allows the user to modify the credentials of an existing user and regenerate the certificates in the MSP directory format. Single or multiple attributes can be changed using the interface. Any element of an identity that is not modified will retain its original value. The command used for this function is : 
 
 ``fabric-ca-client identity modify user1 --secret <newsecret> --affiliation <org> --type <type> 
-
 --attrs <newattrs> --maxenrollments <value>``
 
 Remove
