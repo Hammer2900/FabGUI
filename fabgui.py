@@ -34,7 +34,7 @@ def fab():
     def slogin():
         """Function to start server"""
 
-        try:
+        try: 
             un = t1.get()
             ps = t3.get()
             yaml = YAML()
