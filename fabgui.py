@@ -24,7 +24,7 @@ def fab():
         """Creates a client config file at desired location"""
 
         loc = tkFileDialog.askdirectory()
-        with open(loc + "/fabric-ca-client-config.yaml", "w") as fp:
+        with open(f"{loc}/fabric-ca-client-config.yaml", "w") as fp:
             fp.write(doc)
 
 
@@ -38,14 +38,13 @@ def fab():
             un = t1.get()
             ps = t3.get()
             yaml = YAML()
-            with open(cmd + "/docker-compose.yml") as fp:
+            with open(f"{cmd}/docker-compose.yml") as fp:
                 data = yaml.load(fp)
             data['fabric-ca-server']['command'] = "sh -c 'fabric-ca-server start -b " + \
                 un + ":" + ps + "'"
-            fp = open(cmd + "/docker-compose.yml", "w")
+            fp = open(f"{cmd}/docker-compose.yml", "w")
             yaml.dump(data, fp)
-            res = check_output(
-                "cd " + cmd + "; docker-compose up -d;", shell=True)
+            res = check_output(f"cd {cmd}; docker-compose up -d;", shell=True)
             print(res)
         except Exception as e:
             error(str(e))
@@ -58,8 +57,7 @@ def fab():
         """Function to stop server"""
 
         try:
-            res = check_output(
-                "cd " + cmd + "; docker rm -f $(docker ps -aq)", shell=True)
+            res = check_output(f"cd {cmd}; docker rm -f $(docker ps -aq)", shell=True)
             tkMessageBox.showinfo("Logout", "Successful")
         except Exception as e:
             error(str(e))
@@ -143,21 +141,38 @@ def fab():
 
         try:
             yaml = YAML()
-            with open(cmd + "/client-config.yaml") as fp:
+            with open(f"{cmd}/client-config.yaml") as fp:
                 data = yaml.load(fp)
 
-            data['url'] = "http://" + addr
-            data['mspdir'] = dir + "/msp"
+            data['url'] = f"http://{addr}"
+            data['mspdir'] = f"{dir}/msp"
             data['csr']['cn'] = t5.get()
 
             f = CommentedSeq([CommentedMap([('C', t6.get()), ('ST', t7.get(
             )), ('L', t8.get()), ('O', t9.get()), ('OU', t10.get())])])
             data['csr']['names'] = f
 
-            fp = open(cmd + "/client-config.yaml", "w")
+            fp = open(f"{cmd}/client-config.yaml", "w")
             yaml.dump(data, fp)
-            res = check_output("cd " + cmd + "; export FABRIC_CA_CLIENT_HOME=" + dir +
-                               "; fabric-ca-client enroll -c client-config.yaml -u http://" + t11.get() + ":" + t12.get() + "@" + addr, shell=True)
+            res = check_output(
+                (
+                    (
+                        (
+                            (
+                                f"cd {cmd}; export FABRIC_CA_CLIENT_HOME={dir}"
+                                + "; fabric-ca-client enroll -c client-config.yaml -u http://"
+                            )
+                            + t11.get()
+                            + ":"
+                        )
+                        + t12.get()
+                        + "@"
+                    )
+                    + addr
+                ),
+                shell=True,
+            )
+
         except Exception as e:
             error(str(e))
         print(res)
@@ -189,23 +204,27 @@ def fab():
         arg = ""
 
         if t16.get().rstrip() != "":
-            arg += " --id.name " + t16.get()
+            arg += f" --id.name {t16.get()}"
         if t19.get().rstrip() != "":
-            arg += " --id.type " + t19.get()
+            arg += f" --id.type {t19.get()}"
         if t18.get().rstrip() != "":
-            arg += " --id.affiliation " + t18.get()
+            arg += f" --id.affiliation {t18.get()}"
         if t17.get().rstrip() != "":
-            arg += " --id.secret " + t17.get()
+            arg += f" --id.secret {t17.get()}"
         if t21.get().rstrip() != "":
-            arg += " --id.attrs " + t21.get()
+            arg += f" --id.attrs {t21.get()}"
         if t20.get().rstrip() != "":
-            arg += " --id.maxenrollments " + t20.get()
+            arg += f" --id.maxenrollments {t20.get()}"
 
-        arg+=" -u http://"+addr
+        arg += f" -u http://{addr}"
         #
         print(arg)
         try:
-            res = check_output("export FABRIC_CA_CLIENT_HOME=" + dir +"; fabric-ca-client register " + arg,shell=True)
+            res = check_output(
+                f"export FABRIC_CA_CLIENT_HOME={dir}; fabric-ca-client register {arg}",
+                shell=True,
+            )
+
             print(res)
         except Exception as e:
             error(str(e))
@@ -238,7 +257,7 @@ def fab():
 
         loc = tkFileDialog.askdirectory()
         try:
-            res = check_output("cd " + loc + "; fabric-ca-client gencrl -M ~/msp",shell=True)
+            res = check_output(f"cd {loc}; fabric-ca-client gencrl -M ~/msp", shell=True)
         except Exception as e:
             error(str(e))
 
@@ -256,18 +275,22 @@ def fab():
         arg = ""
 
         if t26.get().rstrip() != "":
-            arg += " --type " + t26.get()
+            arg += f" --type {t26.get()}"
         if t25.get().rstrip() != "":
-            arg += " --affliation " + t25.get()
+            arg += f" --affliation {t25.get()}"
         if t24.get().rstrip() != "":
-            arg += " --secret " + t24.get()
+            arg += f" --secret {t24.get()}"
         if t28.get().rstrip() != "":
-            arg += " --attrs " + t28.get()
+            arg += f" --attrs {t28.get()}"
         if t27.get().rstrip() != "":
-            arg += " --maxenrollments " + t27.get()
+            arg += f" --maxenrollments {t27.get()}"
 
         try:
-            res = check_output("export FABRIC_CA_CLIENT_HOME=" + dir + "; fabric-ca-client identity modify "+ t23.get() +" "+ arg,shell=True)
+            res = check_output(
+                f"export FABRIC_CA_CLIENT_HOME={dir}; fabric-ca-client identity modify {t23.get()} {arg}",
+                shell=True,
+            )
+
         except Exception as e:
             error(str(e))
 
@@ -289,7 +312,11 @@ def fab():
         global dir
 
         try:
-            res = check_output("export FABRIC_CA_CLIENT_HOME=" + dir + "; fabric-ca-client identity remove "+ t30.get(),shell=True)
+            res = check_output(
+                f"export FABRIC_CA_CLIENT_HOME={dir}; fabric-ca-client identity remove {t30.get()}",
+                shell=True,
+            )
+
         except Exception as e:
             error(str(e))
 
